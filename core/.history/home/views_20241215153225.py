@@ -5,7 +5,7 @@ import time
 
 @app.task
 def my_task():
-    time.sleep(20)
+    time.sleep(10)
     open('test.txt', 'w').close()
 
 
