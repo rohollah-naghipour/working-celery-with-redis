@@ -1,11 +1,13 @@
 
-from django.core.mail import send_mail
-from .models import User
-
-from core.celery import app 
 from celery import shared_task
 
+from home.models import User
+from core.celery import app 
+
+from django.core.mail import EmailMessage
+
 import time
+
 
 @shared_task
 def send_email_to_all_users(subject, message):
@@ -13,8 +15,12 @@ def send_email_to_all_users(subject, message):
     #users = User.objects.all()  
     #emails = [user.email for user in users if user.email]
     if emails:
-        send_mail(subject,message,'from@example.com',emails, fail_silently=True)
-                 
+        email = EmailMessage(subject,
+                             message,
+                             'alitezanaghipour@gmail.com',
+                             emails,
+                             fail_silently=True)
+        email.send() 
 
 @app.task
 def my_task():
